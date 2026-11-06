@@ -6,9 +6,9 @@ import katex from 'katex'
 import { FloorGrid } from './viz'
 
 const EQS = [
-  { tex: '\\nabla\\cdot\\mathbf{u}=0', p: [-3.2, 2.2, -1] },
+  { tex: '\\nabla\\cdot\\mathbf{u}=0', p: [2.4, 3.0, -2] },
   { tex: '\\rho\\frac{D\\mathbf{u}}{Dt}=-\\nabla p+\\mu\\nabla^{2}\\mathbf{u}', p: [5.4, 2.7, -2] },
-  { tex: '{}^{C}\\!D_t^{\\alpha}f(t)=\\frac{1}{\\Gamma(1-\\alpha)}\\int_0^t\\frac{f^{\\prime}(\\tau)}{(t-\\tau)^{\\alpha}}d\\tau', p: [-4.2, -1.6, -1.5] },
+  { tex: '{}^{C}\\!D_t^{\\alpha}f(t)=\\frac{1}{\\Gamma(1-\\alpha)}\\int_0^t\\frac{f^{\\prime}(\\tau)}{(t-\\tau)^{\\alpha}}d\\tau', p: [3.6, -2.4, -1] },
   { tex: '\\rho c_p\\,\\partial_t T=k\\nabla^2 T', p: [4.6, -1.8, -1] },
   { tex: '\\mathbf{J}\\times\\mathbf{B}', p: [0.6, 3.1, -2.5] },
 ]
