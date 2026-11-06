@@ -84,17 +84,17 @@ export function Impact() {
           <div className="chart-head">
             <div><h3 style={{ fontFamily: 'var(--head)', fontWeight: 500 }}>Citations of featured publications, by year published</h3>
               <p className="note" style={{ marginTop: 4 }}>Sum of citation counts of the 20 featured publications below, grouped by publication year. A year-by-year citation history was not supplied.</p></div>
-            <div className="legend"><span><i style={{ background: 'var(--cyan)' }} />Citations</span></div>
+            <div className="legend"><span><i style={{ background: 'var(--blue)' }} />Citations</span></div>
           </div>
           <div style={{ position: 'relative' }}>
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" role="img" aria-label="Line chart of featured publication citations by publication year" onMouseLeave={() => setHi(null)}>
               <defs>
-                <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#46D9FF" stopOpacity=".35" /><stop offset="1" stopColor="#4263EB" stopOpacity="0" /></linearGradient>
-                <linearGradient id="ln" x1="0" x2="1"><stop offset="0" stopColor="#4263EB" /><stop offset=".5" stopColor="#7957FF" /><stop offset="1" stopColor="#46D9FF" /></linearGradient>
-                <filter id="gl" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+                <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#4263EB" stopOpacity=".22" /><stop offset="1" stopColor="#7957FF" stopOpacity="0" /></linearGradient>
+                <linearGradient id="ln" x1="0" x2="1"><stop offset="0" stopColor="#4263EB" /><stop offset=".5" stopColor="#7957FF" /><stop offset="1" stopColor="#12A8D8" /></linearGradient>
+                <filter id="gl" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
               </defs>
               {[0, 0.25, 0.5, 0.75, 1].map((t) => (
-                <g key={t}><line x1={pl} x2={W - pr} y1={yy(max * t)} y2={yy(max * t)} stroke="rgba(167,176,192,.12)" /><text x={pl - 10} y={yy(max * t) + 4} textAnchor="end" fill="#A7B0C0" fontSize="11">{Math.round(max * t)}</text></g>
+                <g key={t}><line x1={pl} x2={W - pr} y1={yy(max * t)} y2={yy(max * t)} stroke="rgba(11,18,48,.08)" /><text x={pl - 10} y={yy(max * t) + 4} textAnchor="end" fill="#5B6579" fontSize="11">{Math.round(max * t)}</text></g>
               ))}
               <path d={`${smooth} L${x(data.length - 1)},${H - pb} L${x(0)},${H - pb} Z`} fill="url(#ar)" />
               <path d={smooth} fill="none" stroke="url(#ln)" strokeWidth="3" filter="url(#gl)" strokeLinecap="round" />
@@ -102,9 +102,9 @@ export function Impact() {
               {data.map((d, i) => (
                 <g key={d.y} onMouseEnter={() => setHi(i)} onFocus={() => setHi(i)} tabIndex={0} aria-label={`${d.y}: ${d.c} citations across ${d.n} featured publications`}>
                   <rect x={x(i) - 28} y={pt} width="56" height={H - pt - pb} fill="transparent" />
-                  {hi === i && <line x1={x(i)} x2={x(i)} y1={pt} y2={H - pb} stroke="rgba(70,217,255,.4)" strokeDasharray="4 4" />}
-                  <circle cx={x(i)} cy={yy(d.c)} r={hi === i ? 9 : 5.5} fill="#080D1B" stroke="#46D9FF" strokeWidth="2.5" filter="url(#gl)" style={{ transition: '.2s' }} />
-                  <text x={x(i)} y={H - 16} textAnchor="middle" fill={hi === i ? '#fff' : '#A7B0C0'} fontSize="12">{d.y}</text>
+                  {hi === i && <line x1={x(i)} x2={x(i)} y1={pt} y2={H - pb} stroke="rgba(66,99,235,.4)" strokeDasharray="4 4" />}
+                  <circle cx={x(i)} cy={yy(d.c)} r={hi === i ? 9 : 5.5} fill="#fff" stroke="#4263EB" strokeWidth="2.5" filter="url(#gl)" style={{ transition: '.2s' }} />
+                  <text x={x(i)} y={H - 16} textAnchor="middle" fill={hi === i ? '#0B1230' : '#5B6579'} fontSize="12">{d.y}</text>
                 </g>
               ))}
             </svg>

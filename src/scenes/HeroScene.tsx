@@ -39,7 +39,7 @@ function Surface({ mobile, reduced }: { mobile: boolean; reduced: boolean }) {
   const tmp = useMemo(() => new THREE.Color(), [])
   const a = useMemo(() => new THREE.Color('#4263EB'), [])
   const b = useMemo(() => new THREE.Color('#7957FF'), [])
-  const c = useMemo(() => new THREE.Color('#46D9FF'), [])
+  const c = useMemo(() => new THREE.Color('#12A8D8'), [])
   const mouse = useRef(new THREE.Vector2(0, 0))
   useFrame((s) => {
     const t = reduced ? 0 : s.clock.elapsedTime
@@ -65,7 +65,7 @@ function Surface({ mobile, reduced }: { mobile: boolean; reduced: boolean }) {
   return (
     <>
       <mesh geometry={geo} frustumCulled={false}>
-        <meshBasicMaterial vertexColors wireframe transparent opacity={0.8} />
+        <meshBasicMaterial vertexColors wireframe transparent opacity={0.85} />
       </mesh>
       <mesh geometry={geo} frustumCulled={false}>
         <meshBasicMaterial vertexColors transparent opacity={0.1} side={THREE.DoubleSide} depthWrite={false} />
@@ -80,7 +80,7 @@ function Particles({ count, reduced }: { count: number; reduced: boolean }) {
     const pos = new Float32Array(count * 3)
     const col = new Float32Array(count * 3)
     const vel = new Float32Array(count * 3)
-    const cols = [new THREE.Color('#46D9FF'), new THREE.Color('#7957FF'), new THREE.Color('#4263EB'), new THREE.Color('#ffffff')]
+    const cols = [new THREE.Color('#12A8D8'), new THREE.Color('#7957FF'), new THREE.Color('#4263EB'), new THREE.Color('#1c2b6b')]
     for (let i = 0; i < count; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 16
       pos[i * 3 + 1] = (Math.random() - 0.5) * 9
@@ -131,7 +131,7 @@ function Particles({ count, reduced }: { count: number; reduced: boolean }) {
         <bufferAttribute attach="attributes-position" count={count} array={pos} itemSize={3} />
         <bufferAttribute attach="attributes-color" count={count} array={col} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial size={0.045} vertexColors transparent opacity={0.85} depthWrite={false} blending={THREE.AdditiveBlending} sizeAttenuation />
+      <pointsMaterial size={0.05} vertexColors transparent opacity={0.8} depthWrite={false} sizeAttenuation />
     </points>
   )
 }
@@ -156,13 +156,13 @@ function Curves({ reduced }: { reduced: boolean }) {
       g.current.rotation.x += d * 0.03
     }
   })
-  const colors = ['#46D9FF', '#7957FF', '#4263EB']
+  const colors = ['#12A8D8', '#7957FF', '#4263EB']
   return (
     <group ref={g} position={[0, 0.3, -1]}>
       {geos.map((geo, i) => (
         <line key={i}>
           <primitive object={geo} attach="geometry" />
-          <lineBasicMaterial color={colors[i]} transparent opacity={0.4} />
+          <lineBasicMaterial color={colors[i]} transparent opacity={0.55} />
         </line>
       ))}
     </group>
@@ -204,8 +204,8 @@ export default function HeroScene({ mobile, reduced }: { mobile: boolean; reduce
   return (
     <Canvas dpr={[1, mobile ? 1.5 : 1.8]} camera={{ position: [0, 3.2, 9.5], fov: 50 }} gl={{ antialias: true, powerPreference: 'high-performance' }}>
       <PerformanceMonitor onDecline={() => setQ(0.5)} onIncline={() => setQ(1)} />
-      <color attach="background" args={['#080D1B']} />
-      <fog attach="fog" args={['#080D1B', 9, 22]} />
+      <color attach="background" args={['#FFFFFF']} />
+      <fog attach="fog" args={['#FFFFFF', 10, 24]} />
       <ambientLight intensity={0.6} />
       <Rig mobile={mobile}>
         <Surface mobile={mobile} reduced={reduced} />

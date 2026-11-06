@@ -11,7 +11,7 @@ function Light({ hover }: { hover: boolean }) {
   const l = useRef<THREE.PointLight>(null!)
   const target = useRef(new THREE.Color())
   useFrame(() => {
-    target.current.set(hover ? '#46D9FF' : '#7957FF')
+    target.current.set(hover ? '#12A8D8' : '#7957FF')
     l.current.color.lerp(target.current, 0.08)
     l.current.intensity += ((hover ? 40 : 14) - l.current.intensity) * 0.08
   })

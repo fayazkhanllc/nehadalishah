@@ -41,7 +41,7 @@ export function Lab() {
           <div className="lab-main">
             <span className="lab-badge">Illustrative model · not published results</span>
             <LazyCanvas camera={{ position: [0, 3, 6.5], fov: 48 }}>
-              <color attach="background" args={['#060a16']} />
+              <color attach="background" args={['#F6F8FD']} />
               <ambientLight intensity={0.6} />
               <pointLight position={[3, 4, 4]} intensity={30} color="#7957FF" />
               <pointLight position={[-4, 2, -3]} intensity={18} color="#46D9FF" />

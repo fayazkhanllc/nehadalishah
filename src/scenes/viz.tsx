@@ -12,9 +12,9 @@ import * as THREE from 'three'
 const C = {
   blue: new THREE.Color('#4263EB'),
   violet: new THREE.Color('#7957FF'),
-  cyan: new THREE.Color('#46D9FF'),
-  warm: new THREE.Color('#ff8a5c'),
-  hot: new THREE.Color('#fff1c9'),
+  cyan: new THREE.Color('#12A8D8'),
+  warm: new THREE.Color('#ff6b4a'),
+  hot: new THREE.Color('#ffc46b'),
 }
 const gauss = () => Math.random() + Math.random() + Math.random() - 1.5
 const clampDt = (d: number) => Math.min(d, 0.05)
@@ -26,7 +26,7 @@ function ramp(t: number, out: THREE.Color, stops: THREE.Color[]) {
 }
 
 const pointMat = (size = 0.045, opacity = 0.9) => (
-  <pointsMaterial size={size} vertexColors transparent opacity={opacity} depthWrite={false} blending={THREE.AdditiveBlending} sizeAttenuation />
+  <pointsMaterial size={size} vertexColors transparent opacity={opacity} depthWrite={false} sizeAttenuation />
 )
 
 /* ---------- shared grid geometry ---------- */
@@ -57,7 +57,7 @@ export function Axes({ s = 2.6, labels = true }: { s?: number; labels?: boolean 
   const lines = useMemo(
     () =>
       [
-        { p: [[-s, 0, 0], [s, 0, 0]], c: '#46D9FF', l: 'x', e: [s + 0.2, 0, 0] },
+        { p: [[-s, 0, 0], [s, 0, 0]], c: '#12A8D8', l: 'x', e: [s + 0.2, 0, 0] },
         { p: [[0, -s, 0], [0, s, 0]], c: '#7957FF', l: 'z', e: [0, s + 0.2, 0] },
         { p: [[0, 0, -s], [0, 0, s]], c: '#4263EB', l: 'y', e: [0, 0, s + 0.2] },
       ].map((a) => {
@@ -72,7 +72,7 @@ export function Axes({ s = 2.6, labels = true }: { s?: number; labels?: boolean 
         <group key={a.l}>
           <line>
             <primitive object={a.g} attach="geometry" />
-            <lineBasicMaterial color={a.c} transparent opacity={0.45} />
+            <lineBasicMaterial color={a.c} transparent opacity={0.7} />
           </line>
           {labels && (
             <Html position={a.e as [number, number, number]} center style={{ pointerEvents: 'none', color: a.c, fontSize: 12, fontFamily: 'Space Grotesk' }}>
@@ -87,9 +87,9 @@ export function Axes({ s = 2.6, labels = true }: { s?: number; labels?: boolean 
 
 export function FloorGrid({ y = -1.6, size = 10 }: { y?: number; size?: number }) {
   const g = useMemo(() => {
-    const h = new THREE.GridHelper(size, size * 2, '#4263EB', '#1c2750')
+    const h = new THREE.GridHelper(size, size * 2, '#aab8ee', '#d5dcf3')
     ;(h.material as THREE.Material).transparent = true
-    ;(h.material as THREE.Material).opacity = 0.35
+    ;(h.material as THREE.Material).opacity = 0.9
     return h
   }, [size])
   return <primitive object={g} position={[0, y, 0]} />
@@ -274,7 +274,7 @@ export function NanoViz({ count = 700, nano = 14, spread = 2.6 }: { count?: numb
       </points>
       <instancedMesh ref={inst} args={[undefined, undefined, nano]} frustumCulled={false}>
         <sphereGeometry args={[0.1, 14, 14]} />
-        <meshStandardMaterial color="#ffffff" emissive="#46D9FF" emissiveIntensity={0.6} metalness={0.4} roughness={0.25} />
+        <meshStandardMaterial color="#4263EB" emissive="#12A8D8" emissiveIntensity={0.35} metalness={0.3} roughness={0.35} />
       </instancedMesh>
       <mesh onPointerMove={onMove} onPointerOut={() => hot.current.set(-99, 0, 0)}>
         <planeGeometry args={[spread * 2, 3.2]} />
@@ -282,7 +282,7 @@ export function NanoViz({ count = 700, nano = 14, spread = 2.6 }: { count?: numb
       </mesh>
       <lineSegments>
         <edgesGeometry args={[new THREE.BoxGeometry(spread * 2, 3.2, 3.2)]} />
-        <lineBasicMaterial color="#4263EB" transparent opacity={0.35} />
+        <lineBasicMaterial color="#4263EB" transparent opacity={0.5} />
       </lineSegments>
     </group>
   )
@@ -364,7 +364,7 @@ export function MhdViz({ count = 160, tiltWithPointer = true }: { count?: number
       </lineSegments>
       <mesh>
         <capsuleGeometry args={[0.13, 0.5, 6, 14]} />
-        <meshStandardMaterial color="#cfd6ea" metalness={0.6} roughness={0.3} emissive="#4263EB" emissiveIntensity={0.3} />
+        <meshStandardMaterial color="#3b4a8a" metalness={0.5} roughness={0.35} emissive="#4263EB" emissiveIntensity={0.25} />
       </mesh>
       <points ref={pts} frustumCulled={false}>
         <bufferGeometry>
@@ -390,12 +390,12 @@ export function AttractorViz({ trails = 3, length = 420, interactive = false, on
         const color = [C.cyan, C.violet, C.blue][i % 3]
         for (let k = 0; k < length; k++) {
           const f = k / length
-          col.set([color.r * f, color.g * f, color.b * f], k * 3)
+          col.set([1 - (1 - color.r) * f, 1 - (1 - color.g) * f, 1 - (1 - color.b) * f], k * 3)
         }
         const g = new THREE.BufferGeometry()
         g.setAttribute('position', new THREE.BufferAttribute(buf, 3))
         g.setAttribute('color', new THREE.BufferAttribute(col, 3))
-        const mat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending })
+        const mat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 1 })
         const obj = new THREE.Line(g, mat)
         obj.frustumCulled = false
         return { buf, g, st, obj }
@@ -541,7 +541,7 @@ export function HeatViz({ N = 56, size = 4.6 }: { N?: number; size?: number }) {
         <meshBasicMaterial vertexColors side={THREE.DoubleSide} />
       </mesh>
       <mesh geometry={geo} frustumCulled={false}>
-        <meshBasicMaterial color="#080D1B" wireframe transparent opacity={0.25} />
+        <meshBasicMaterial color="#ffffff" wireframe transparent opacity={0.3} />
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} onPointerMove={move}>
         <planeGeometry args={[size, size]} />
